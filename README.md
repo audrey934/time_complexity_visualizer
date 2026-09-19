@@ -64,9 +64,4 @@ JSON with `algo`, `step`, `n_max`, `sizes`, `times` (seconds), `saved_image`
 
 ## Sample graphs
 
-![sample_binary_search](snapshots/sample_binary_search.png)
-![sample_bubble_sort](snapshots/sample_bubble_sort.png)
-![sample_insertion_sort](snapshots/sample_insertion_sort.png)
-![sample_linear_search](snapshots/sample_linear_search.png)
-![sample_nested_loops](snapshots/sample_nested_loops.png)
-![sample_selection_sort](snapshots/sample_selection_sort.png)
+One example graph per algorithm is in the `snapshots/` folder, named `sample_<algorithm>.png`.
