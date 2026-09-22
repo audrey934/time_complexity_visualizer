@@ -2,6 +2,7 @@ import time
 import matplotlib
 matplotlib.use('Agg')  # save to file
 import matplotlib.pyplot as plt
+from stackqueue import Stack, Queue
 
 
 # Visualizer 
