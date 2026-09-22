@@ -112,6 +112,24 @@ def insertion_sort(n):
             data[j + 1] = key
     return run
 
+def stack_push_pop(n):
+    def run():
+        s = Stack()
+        for i in range(n):
+            s.push(i)
+        while not s.is_empty():
+            s.pop()
+    return run
+
+
+def queue_enqueue_dequeue(n):
+    def run():
+        q = Queue()
+        for i in range(n):
+            q.enqueue(i)
+        while not q.is_empty():
+            q.dequeue()  # pop(0): this is the slow part
+    return run
 
 
 ALGORITHMS = {
@@ -121,6 +139,8 @@ ALGORITHMS = {
     "nested_loops": nested_loops,
     "selection_sort": selection_sort,
     "insertion_sort": insertion_sort,
+    "stack_push_pop": stack_push_pop,
+    "queue_enqueue_dequeue": queue_enqueue_dequeue
 }
 
 
