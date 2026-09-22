@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')  # save to file
 import matplotlib.pyplot as plt
 from stackqueue import Stack, Queue
+from collections import deque
 
 
 # Visualizer 
@@ -132,6 +133,34 @@ def queue_enqueue_dequeue(n):
             q.dequeue()  # pop(0): this is the slow part
     return run
 
+# Other algorithms for queue and stack
+def stack_balanced_parens(n):
+    # n pairs, e.g. n=3 -> "((()))" (already balanced -> worst case, no early exit)
+    text = "(" * n + ")" * n
+
+    def run():
+        s = Stack()
+        for char in text:
+            if char == "(":
+                s.push(char)
+            else:
+                if s.is_empty():
+                    return False
+                s.pop()
+        return s.is_empty()
+    return run
+
+
+
+def queue_deque_enqueue_dequeue(n):
+    def run():
+        d = deque()
+        for i in range(n):
+            d.append(i)
+        while d:
+            d.popleft()
+    return run
+
 
 ALGORITHMS = {
     "linear_search": linear_search,
@@ -141,7 +170,10 @@ ALGORITHMS = {
     "selection_sort": selection_sort,
     "insertion_sort": insertion_sort,
     "stack_push_pop": stack_push_pop,
-    "queue_enqueue_dequeue": queue_enqueue_dequeue
+    "stack_balanced_parens": stack_balanced_parens,
+    "queue_enqueue_dequeue": queue_enqueue_dequeue,
+    "queue_deque_enqueue_dequeue": queue_deque_enqueue_dequeue,
+
 }
 
 
