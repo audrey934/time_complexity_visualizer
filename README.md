@@ -35,7 +35,6 @@ The O(n²) algorithms get slow for large sizes. Use something like `step=100&n_m
 | `merge_sort` | O(n log n) |
 | `constant_time` | O(1) |
 
-The first four are the required ones. The other four are extras.
 
 ## Response
 

@@ -3,3 +3,4 @@ __pycache__/
 test_*.png
 snapshots/*
 !snapshots/sample_*.png
+
