@@ -4,3 +4,5 @@ test_*.png
 snapshots/*
 !snapshots/sample_*.png
 
+analysis.db
+analysis.db
