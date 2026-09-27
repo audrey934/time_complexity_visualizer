@@ -1,10 +1,8 @@
 import base64
 import os
 from datetime import datetime
-
 from flask import Flask, jsonify, request
-
-
+from models import db, Analysis
 from visualizer import time_complexity_visualizer, ALGORITHMS
 
 app = Flask(__name__)
@@ -16,6 +14,12 @@ SNAPSHOT_DIR = "snapshots"
 PORT = int(os.environ.get("PORT", 8000))
 os.makedirs(SNAPSHOT_DIR, exist_ok=True)
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(BASE_DIR, 'analysis.db')}"
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 def clean(value):
     """Accept 'linear_search', ['linear_search'] or plain linear_search."""
@@ -48,6 +52,28 @@ def analyze():
 
     return jsonify(algo=algo, step=step, n_max=n_max, sizes=sizes,
                    times=times, saved_image=save_path, image_base64=image_b64)
+
+@app.route("/save_analysis", methods=["POST"])
+def save_analysis():
+    algo = clean(request.args.get("algo", ""))
+    if algo not in ALGORITHMS:
+        return jsonify(error=f"Unknown algo '{algo}'", available=sorted(ALGORITHMS)), 400
+
+    try:
+        step, n_max = get_int("step"), get_int("n_max")
+    except ValueError:
+        return jsonify(error="step and n_max must be whole numbers"), 400
+    if step <= 0 or n_max < N_MIN:
+        return jsonify(error="step must be > 0 and n_max must be >= 0"), 400
+
+    save_path = os.path.join(SNAPSHOT_DIR, f"{algo}_{datetime.now():%Y%m%d_%H%M%S}.png")
+    time_complexity_visualizer(ALGORITHMS[algo], N_MIN, n_max, step, save_path)
+
+    analysis = Analysis(algorithm=algo, step=step, n_max=n_max, saved_image=save_path)
+    db.session.add(analysis)
+    db.session.commit()
+
+    return jsonify(message="Analysis saved successfully")
 
 
 @app.route("/")
